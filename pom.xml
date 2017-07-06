@@ -6,6 +6,12 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<dependencies>
+		<!-- javassist to mess with bytecode! -->
+		<dependency>
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.22.0-CR2</version>
+		</dependency>
 
 		<!-- Servlet -->
 		<dependency>
@@ -20,8 +26,8 @@
 			<version>2.1</version>
 			<scope>provided</scope>
 		</dependency>
-		
-		
+
+
 		<!-- Testing -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -37,6 +43,14 @@
 
 	<build>
 		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>3.0.0</version>
