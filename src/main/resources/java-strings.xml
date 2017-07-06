@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<entry key="HttpServlet.service.insertBefore"><![CDATA[
+		ThreadLocal<Integer> threadLocal = new ThreadLocal<Integer>();
+		threadLocal.set(0);
+	
+	]]></entry>
+
+	<entry key="HttpServlet.service.insertAfter"><![CDATA[
+	
+		javax.servlet.http.HttpServletResponse response = (javax.servlet.http.HttpServletResponse) res;
+		javax.servlet.http.HttpServletRequest request = (javax.servlet.http.HttpServletRequest) req;
+		
+		if(!response.containsHeader("reqid")) {response.setHeader("reqid", java.util.UUID.randomUUID().toString() );}
+		if(!response.containsHeader("start")) {response.setHeader("start", ""+startTime);}
+		
+		//Use the latest duration
+		response.setHeader("duration", ""+(System.nanoTime() - startTime));
+			
+		System.out.println("Execution Duration "
+		 + request.getMethod() 
+		 + request.getLocalAddr() 
+		 + Thread.currentThread().getStackTrace()[Thread.currentThread().getStackTrace().length-1].getLineNumber() 
+		 + "(nano sec): "+ (System.nanoTime() - startTime) );
+		 
+	]]></entry>
+	
+	<entry key="String.insertAfter"><![CDATA[
+		HttpServletRequest request = (HttpServletRequest)org.apache.catalina.core.ApplicationFilterChain.getLastServicedRequest();
+		
+	]]></entry>
+	
+</properties>
