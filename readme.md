@@ -1,4 +1,3 @@
-
 # APM Agent
 
 
@@ -6,9 +5,16 @@
  * https://stackoverflow.com/questions/15872642/how-to-put-classes-for-javaagent-in-the-classpath
  * https://stackoverflow.com/questions/52353/in-java-what-is-the-best-way-to-determine-the-size-of-an-object?noredirect=1&lq=1
  * http://javapapers.com/core-java/java-instrumentation/
- * https://jboss-javassist.github.io/javassist/tutorial/tutorial.html 
+ * https://jboss-javassist.github.io/javassist/tutorial/tutorial.html
+ 
+ 
+## Start it up
+```
+echo ' CATALINA_OPTS="-javaagent:C:/Users/jwrobel/Desktop/ws/git/apm-agent/target/apm-agent-0.0.1-SNAPSHOT-jar-with-dependencies.jar"' >> bin/setenv.sh
+bin/shutdown.sh;sleep 3; bin/startup.sh; tail -f logs/catalina.out
+```
 
- JSP error
+## JSP error
 ```
 Stacktrace:
 	org.apache.jasper.compiler.DefaultErrorHandler.javacError(DefaultErrorHandler.java:102)

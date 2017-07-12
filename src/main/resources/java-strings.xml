@@ -3,21 +3,33 @@
 <properties>
 
 	<entry key="HttpServlet.service.insertBefore"><![CDATA[
-		ThreadLocal<Integer> threadLocal = new ThreadLocal<Integer>();
-		threadLocal.set(0);
+		//ThreadLocal<Integer> threadLocal = new ThreadLocal<Integer>();
+		//threadLocal.set(0);
+		startTime = System.nanoTime();
+		
 	
 	]]></entry>
+	
 
 	<entry key="HttpServlet.service.insertAfter"><![CDATA[
 	
 		javax.servlet.http.HttpServletResponse response = (javax.servlet.http.HttpServletResponse) res;
 		javax.servlet.http.HttpServletRequest request = (javax.servlet.http.HttpServletRequest) req;
 		
-		if(!response.containsHeader("reqid")) {response.setHeader("reqid", java.util.UUID.randomUUID().toString() );}
-		if(!response.containsHeader("start")) {response.setHeader("start", ""+startTime);}
+		//Save unique name per request
+		if(!response.containsHeader("Reqid")) {response.setHeader("Reqid", java.util.UUID.randomUUID().toString() );}
+		
+		//Save start time of request 
+		if(!response.containsHeader("Start")) {response.setHeader("Start", ""+startTime);}
 		
 		//Use the latest duration
-		response.setHeader("duration", ""+(System.nanoTime() - startTime));
+		response.setHeader("Duration", ""+(System.nanoTime() - startTime));
+		
+		if(request.getAttribute("stringCount")==null){
+			response.setHeader("stringCount", ""+0);
+		}else{
+			response.setHeader("stringCount", ""+request.getAttribute("stringCount"));
+		}
 			
 		System.out.println("Execution Duration "
 		 + request.getMethod() 
@@ -28,7 +40,17 @@
 	]]></entry>
 	
 	<entry key="String.insertAfter"><![CDATA[
-		HttpServletRequest request = (HttpServletRequest)org.apache.catalina.core.ApplicationFilterChain.getLastServicedRequest();
+		javax.servlet.http.HttpServletResponse request = (javax.servlet.http.HttpServletResponse)org.apache.catalina.core.ApplicationFilterChain.getLastServicedRequest();
+		
+		if(request != null){
+			if(request.getAttribute("stringCount")==null){
+				request.setAttribute("stringCount", 0);
+			}else{
+				int stringCount = 1 + ((int)request.getAttribute("String"));
+				request.setAttribute("stringCount", stringCount);
+			}
+		}
+		
 		
 	]]></entry>
 	

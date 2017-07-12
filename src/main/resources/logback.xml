@@ -1,0 +1,37 @@
+<!DOCTYPE configuration>
+<configuration>
+
+	<appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+k		<File>${catalina.home}/logs/${project.artifactId}.log</File>
+		<append>true</append>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<charset>UTF-8</charset>
+			<pattern>
+				%d{yyyy-MM-dd HH:mm:ss.SSS} | %-5level | %logger{35} | %msg%n
+			</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>
+				${catalina.home}/logs/old/${project.artifactId}.log.%d
+			</fileNamePattern>
+		</rollingPolicy>
+	</appender>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%level \(%C:%L\) %msg%n</pattern>
+		</encoder>
+	</appender>
+
+
+	<logger name="co.wrob" level="DEBUG" />
+	<logger name="com.wrob" level="DEBUG" />
+
+	<!-- <logger name="org.hibernate.SQL" level="DEBUG" /> <logger name="org.hibernate.type" 
+		level="TRACE" /> -->
+
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+	</root>
+
+</configuration>

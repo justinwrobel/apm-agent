@@ -1,6 +1,5 @@
-package com.wrob.apm;
+package co.wrob.apm;
 
-import java.io.IOException;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.Instrumentation;
 
@@ -22,7 +21,7 @@ import java.lang.instrument.Instrumentation;
  */
 public class Agent1 {
 
-	public static void premain(String args, Instrumentation inst) throws IOException {
+	public static void premain(String args, Instrumentation inst) throws Exception {
 		System.out.println("!!!1");
 		ClassFileTransformer transformer = new Agent1ClassFileTransformer();
 		inst.addTransformer(transformer);
